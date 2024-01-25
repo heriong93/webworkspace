@@ -1,7 +1,7 @@
 console.log('Destructuring');
 
 //Object
-
+//update deconstructuring
 function getUserInfo(){
     return {
         firstName: 'John',
