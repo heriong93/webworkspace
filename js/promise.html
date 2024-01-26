@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>promise.html</title>
+    <script type="module"> //module type을 사용할거라고 알려줘야함
+        import cal from '../module/calculator.js'; //js파일에서 export해야함 //특정요소만 가져올거면 import {add} from <-이렇게 지정해줘야함 하지만 이 방식은 잘 안씀 
+        console.log(cal.add(1,2));
+    </script> 
+</head>
+<body>
+    <script>
+        
+        console.log(add(1,2));
+        let fetch = (url,method,data) => {
+    return new Promise((resolve,reject)=>{
+        const xhr = new XMLHttpRequest();
+        xhr.open(method,url);
+        xhr.setRequestHeader('Content-type','application/json');
+        xhr.send(JSON.stringify(data));
+
+        xhr.onreadystatechange = function(){
+            if(xhr.readyState != XMLHttpRequest.DONE) return;
+
+            if(xhr.status >= 200 && xhr.status < 400){  //200~300번은 통신이 되었다는 의미. 400부터는 에러 의미
+                resolve(xhr.response);
+            }else{
+                reject(new Error(xhr.status));
+            }
+        }
+    })
+}
+fetch('https://reqres.in/api/users?page=2', 'Get')
+    .then(result => JSON.parse(result)) //json객체는 parsing이 필요하다. 정보를 수월하게 처리하기 위해. 파싱 하지 않으면 문자열 
+    .then(data => console.log(data))
+    .catch(err => console.log(err));
+    console.log('fetch 바깥에 실행'); //순서대로 본다면 결과 다음이지만 대체로 먼저 출력됨.순서를 보장할 수 없음
+    </script>
+</body>
+</html>
