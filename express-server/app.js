@@ -25,6 +25,10 @@ app.get('/customErr', (req,res,next)=>{
     next(new Error('Process Fail! Check Data'));
 })
 
+//static 
+app.use(express.static('./files'));
+app.use('/public', express.static('./files'));
+
 //Data Loading 
 const jsonFile  = fs.readFileSync('./db.json');
 const jsonData = JSON.parse(jsonFile); //or stringfy 로 변환해줘야함 
