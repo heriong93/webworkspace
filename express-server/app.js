@@ -1,5 +1,6 @@
 const fs = require('fs');
 const express = require('express');
+const userRouter = require('./user.js'); //모듈이 아닌것들은 경로 찾아갈 수 있도록 파일을 불러와야함
 const app = express();
 //미들웨어 
 //--Request Data Process
@@ -46,6 +47,8 @@ const getData = (target,where)=>{
     return data;
 }
 
+app.use('/user',userRouter); //라우팅 경로를 맵핑하기 때문에 user.js 에 있는 기능의 정의는 중복되도 상관없음(수정,삭제, 등록)
+
 app.listen(4000,()=>{
     console.log('http://localhost:4000'); //listen 서버 실행 명령어 4000 포트 넘버 listen은 하나만 실행시킴. 
 })
@@ -79,7 +82,7 @@ app.get('/comments/:id',(req,res)=>{
 //조회 - profile
 app.get('/profile', (req,res)=>{
     let data = getData('profile');
-    res.json(data); //res.json(data)해도됨
+    res.json(data); //res.send(data)해도됨
 })
 //등록
 app.post('/posts', (req,res)=>{
