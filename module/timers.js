@@ -20,8 +20,18 @@ function getDateTime(){
 }
 console.log(getDateTime());
 
-const timeout = setTimeout(()=>{console.log(getDateTime());
-},3000);
+function getDate(){
+    let today = new Date();
+    let year = today.getFullYear();
+    let month = today.getMonth();
+    let day = today.getDate();
+
+    return `${year}-${month}-${day}`;
+}
+console.log('getDatefunction',getDate());
+
+const timeout = setTimeout(()=>{console.log(getDateTime())},3000);
+
 
 //clearTimeout(timeout); //타임아웃을 취소하는 것 주로 이거보다 아래에 있는걸 더 많이 씀 
 let count = 0;
@@ -32,6 +42,7 @@ const interval = setInterval(()=>{ //setInterval은 반복문 안에 넣으면 �
     }
     console.log(getDateTime());
 },2000);
+
 
 setImmediate(()=>{ //시간지정이 없음. 즉각실행
     console.log('setImmediate',getDateTime());
