@@ -1,3 +1,4 @@
+require('dotenv').config({path:'./db/dbSetting.env'});
 const express = require('express');
 const app = express();
 const mysql = require('./db.js');
@@ -20,9 +21,9 @@ app.get('/users', async (req, res) => {
 });
 
 //단건조회
-app.get('/users/:no', async (req, res) => {
-    let userNo = req.params.no;
-    let info = (await mysql.executeQuery('userInfo',userNo))[0];
+app.get('/users/:id', async (req, res) => {
+    let userId = req.params.id;
+    let info = (await mysql.executeQuery('userInfo',userId))[0];
     res.json(info);
 });
 
@@ -43,13 +44,13 @@ app.post('/users', async (req, res) => {
 });
 
 //수정
-app.put('/users/:no', async (req,res)=>{
+app.put('/users/:id', async (req,res)=>{
     let result = await updateInfo(req);
     res.json(result);
 });
 //지정하지 않고 모두 수정 가능하게
 async function updateAll(request) {
-    let data = [selectedInfo(request.body.param), request.params.no]; //set절, id컬럼
+    let data = [selectedInfo(request.body.param), request.params.id]; //set절, id컬럼
     let result = await mysql.executeQuery('userUpdateAll', data);
     return result;
 };
@@ -74,7 +75,7 @@ function selectedInfo(obj) {
 };
 //부분 수정- 지정해준 파마리터만 수정됨
 async function updateInfo(request) {
-    let data = [...getInfo(request.body.param), request.params.no]; //컬럼: email, phone, address,id
+    let data = [...getInfo(request.body.param), request.params.id]; //컬럼: email, phone, address,id
     let result = await mysql.executeQuery('userUpdateInfo', data);
     return result;
 };
